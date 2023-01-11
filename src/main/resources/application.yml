@@ -21,6 +21,12 @@ spring:
     host: localhost
     port: 6379
 
-scheuler:
+  jwt:
+    secret: ZGF5b25lLXNwcmluZy1ib290LWRpdmlkZW5kLXByb2plY3QtdHV0b3JpYWwtand0LXNlY3JldC1rZXkK
+            # 특정 문자열을 base64로 인코딩한 값
+
+
+scheduler:
   scrap:
     yahoo: "0/5 * * * * *"
+
