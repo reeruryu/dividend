@@ -1,5 +1,7 @@
 package com.example.dividend.service;
 
+import com.example.dividend.exception.impl.AlreadyExistCompanyException;
+import com.example.dividend.exception.impl.FailScrapException;
 import com.example.dividend.exception.impl.NoCompanyException;
 import com.example.dividend.model.Company;
 import com.example.dividend.model.ScrapedResult;
@@ -32,7 +34,7 @@ public class CompanyService {
 	public Company save(String ticker) {
 		boolean exists = this.companyRepository.existsByTicker(ticker);
 		if (exists) {
-			throw new RuntimeException("already exists ticker -> " + ticker);
+			throw new AlreadyExistCompanyException();
 		}
 		return this.storeCompanyAndDividend(ticker);
 	}
@@ -45,7 +47,7 @@ public class CompanyService {
 		// ticker를 기준으로 회사를 스크래핑
 		Company company = this.yahooFinanceScraper.scrapCompanyByTicker(ticker);
 		if (ObjectUtils.isEmpty(company)) {
-			throw new RuntimeException("failed to scrap ticker -> " + ticker);
+			throw new FailScrapException();
 		}
 
 		// 해당 회사 존재할 경우, 회사의 배당금 정보를 스크래핑

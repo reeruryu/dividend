@@ -19,4 +19,15 @@ public class CustomExceptionHandler {
 		return new ResponseEntity<>(errorResponse, HttpStatus.resolve(e.getStatusCode()));
 	}
 
+	@ExceptionHandler(RuntimeException.class)
+	protected ResponseEntity<?> handleRuntimeException(RuntimeException e) {
+		int statusCode = HttpStatus.BAD_REQUEST.value();
+		ErrorResponse errorResponse = ErrorResponse.builder()
+			.code(statusCode)
+			.message(e.getMessage())
+			.build();
+		return new ResponseEntity<>(errorResponse, HttpStatus.resolve(statusCode));
+	}
+
+
 }
